@@ -1,0 +1,19 @@
+public class WrapClass {
+
+   @AuraEnabled
+    public Layout Layout {get;set;}
+  @AuraEnabled	  
+        public RecordType RecordType {get;set;}
+   
+   public class Layout{
+        public string Name ;
+    }
+     public class RecordType{
+        public string Name ;
+          public string SobjectType   ; 
+    }
+      
+    
+   
+
+}

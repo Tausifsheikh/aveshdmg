@@ -1,0 +1,387 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="mappingProfile" access="global" >
+
+<aura:handler name="init" value="{!this}" action="{!c.doinit}" />
+<aura:handler name="init" value="{!this}" action="{!c.init}" />
+<aura:attribute name="str" type="String"/>
+<aura:attribute name="str2" type="String"/>
+<aura:attribute name="clm" type="object" />
+<aura:attribute name="sourceProfile" type="object" />
+<aura:attribute name="destnProfile" type="object" />
+<aura:attribute name="strText" type="String"/>
+<aura:attribute name="myvaluee" type="String"/>
+<aura:attribute name="myvaluee1" type="String"/>
+
+<aura:attribute name="option" type="String" default="None" />
+<aura:attribute name="Apexclass" type="String" />
+<aura:attribute name="Pagelayout" type="String" />
+<aura:attribute name="wrap1" type="mappingProfile.Data[]" />
+<aura:attribute name="wrap2" type="mappingProfile.Data[]" />
+     <aura:attribute name="custom1" type="mappingProfile.wrapprofile[]" />
+    <aura:attribute name="custom2" type="mappingProfile.wrapprofile[]" />
+ 
+
+<lightning:card title="Profile Comparision" class="gg" iconName="custom:custom103">
+</lightning:card>
+
+<lightning:card >
+<div class="slds-grid">
+<div class="slds-col slds-p-horizontal_medium">
+
+<div class="slds-box slds-theme_default">
+
+<div class="slds-p-around--large">
+
+<div class="slds-page-header" style="cursor: pointer;" onclick="{!c.sectionOne}" data-id="sectionOne">
+<section class="slds-clearfix">
+<div class="slds-float--left ">
+<lightning:icon class="slds-show" aura:id="articleOne" iconName="utility:add" size="x-small" alternativeText="Indicates add"/>
+<lightning:icon class="slds-hide" aura:id="articleOne" iconName="utility:dash" size="x-small" alternativeText="Indicates dash"/>
+
+
+</div>
+<div class="slds-m-left--large">Source Profile</div>
+</section>
+
+</div>
+
+
+<div class="slds-hide slds-p-around--medium" aura:id="articleOne">
+<div aura:id="me">
+<lightning:input type="text" id="myInput" value="{!v.str}" onkeyup="{!c.callKeyUp}" placeholder="Search for Profile.." title="Type in a name" />
+</div><br/>
+
+<ul id="myUL">
+<aura:iteration items="{!v.sourceProfile}" var="ab">
+
+
+
+<li>
+<ui:inputRadio text="{!ab}" name="Role" click="{!c.onGroup}" aura:id="chk1" />&nbsp;
+
+<a href="#">{!ab}</a>
+</li>
+
+</aura:iteration>
+
+</ul>
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+<div class="slds-col slds-p-horizontal_medium">
+
+<div class="slds-box slds-theme_default">
+
+<div class="slds-p-around--large">
+
+<div class="slds-page-header" style="cursor: pointer;" onclick="{!c.sectionOne}" data-id="sectiontwo">
+<section class="slds-clearfix">
+<div class="slds-float--left ">
+<lightning:icon class="slds-show" aura:id="articletwo" iconName="utility:add" size="x-small" alternativeText="Indicates add"/>
+<lightning:icon class="slds-hide" aura:id="articletwo" iconName="utility:dash" size="x-small" alternativeText="Indicates dash"/>
+
+
+</div>
+<div class="slds-m-left--large">Destination Profile</div>
+</section>
+
+</div>
+
+
+<div class="slds-hide slds-p-around--medium" aura:id="articletwo">
+<div aura:id="me">
+<lightning:input type="text" id="myInput2" value="{!v.str2}" onkeyup="{!c.callKeyUp2}" placeholder="Search for Profile.." title="Type in a name" />
+</div><br/>
+
+<ul id="myUL2">
+<aura:iteration items="{!v.destnProfile}" var="a">
+<li> <ui:inputRadio text="{!a}" name="Role" click="{!c.onGroup2}" aura:id="chk2" />&nbsp;
+<a href="#">{!a}</a></li>
+
+</aura:iteration>
+
+</ul>
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+</div>
+
+</lightning:card>
+<br/>
+<lightning:select aura:id="distance" label="Choose any value" onchange="{!c.mapping}" class="options" value="{! v.option }">
+<option value="None">choose one...</option>
+<option value="1"> Apex class</option>
+<option value="2">Page Layout</option>
+<option value="3">Others</option>
+</lightning:select>
+
+<aura:if isTrue="{! v.option == '1' }">
+
+
+<br/>
+<lightning:card title="Mapping Apex class" >
+<!-- <aura:set attribute="actions">
+<lightning:button label="Mapp Me" onclick="{! c.mapping }" />
+</aura:set>-->
+<div class="slds-grid slds-gutters ">
+<div class="slds-col">
+<div class="slds-box slds-theme_default">
+<table class="slds-table slds-table_cell-buffer slds-table_bordered " >
+<thead>
+<tr class="slds-line-height_reset">
+<th class="" scope="col">
+<div class="slds-truncat">Source:&nbsp;{!v.str}</div>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="slds-hint-parent">
+<td>
+
+<div >
+
+<ul >
+<aura:iteration items="{!v.myvaluee}" var="a">
+
+<li>
+<a href="#">{!a.Name}</a></li>
+
+</aura:iteration>
+
+</ul>
+
+
+</div>
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="slds-col">
+<div class="slds-box slds-theme_default">
+<table class="slds-table slds-table_cell-buffer slds-table_bordered">
+<thead>
+<tr class="slds-line-height_reset">
+<th class="" scope="col">
+<div class="slds-truncate" >Destination:&nbsp;{!v.str2}</div>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="slds-hint-parent">
+<td>
+<div class="slds-truncate" title="Cloudhub">
+<ul >
+<aura:iteration items="{!v.myvaluee1}" var="a">
+<li>
+<a href="#">{!a.Name}</a></li>
+
+</aura:iteration>
+
+</ul>
+</div>
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</lightning:card>
+
+</aura:if>
+<!-- pagelayout-->
+<br/>
+
+<aura:if isTrue="{! v.option == '2' }">
+
+<lightning:card title="Mapping Page Layout" >
+        <br/>  
+            <aura:iteration items="{!v.custom1}" var="a">
+        
+        
+        
+  <div style="width:700px !important">
+<table class=" slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" style="border: 1px solid black">
+
+<tbody>
+<tr>
+<th class="bb">Profile Name</th>
+<th>{!v.str}</th>
+<th>{!v.str2}</th>
+</tr>
+    <tr>
+<th class="bb">Profile Description</th>
+<th>{!a.descrpt}</th>
+          <aura:iteration items="{!v.custom2}" var="b">
+        <th >{!b.descrpt}</th>
+        </aura:iteration>
+</tr>
+    <tr>
+<th class="bb"> Custom Profile</th>
+<th >{!a.iscustom}</th>
+         <aura:iteration items="{!v.custom2}" var="b">
+<th >{!b.iscustom}</th>
+        </aura:iteration>
+    </tr>
+    
+        <tr>
+<th class="bb">User Licence</th>
+        <th>{!a.UserLicense}</th>
+             <aura:iteration items="{!v.custom2}" var="b">
+        <th >{!b.UserLicense}</th>
+            </aura:iteration>
+          
+</tr>
+    
+    
+    </tbody></table></div></aura:iteration><br/>
+<!-- <aura:set attribute="actions">
+<lightning:button label="Mapp Me" onclick="{! c.mapping }" />
+</aura:set>-->
+<div class="slds-grid slds-gutters">
+<div class="slds-col">
+<div class="slds-box slds-theme_default">
+
+
+<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+<thead>
+<tr class="slds-line-height_reset">
+<th class="" scope="col">
+<div class="slds-truncate">Source:&nbsp;{!v.str}</div>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+
+
+
+
+<th class="bb">Page Layout</th>
+<th class="bb">Record Type</th>
+</tr>
+<tr class="slds-hint-parent">
+
+
+
+<td>
+
+<div class="slds-truncate" title="Cloudhub">
+
+<ul >
+<aura:iteration items="{!v.wrap1}" var="a">
+<li>
+<a href="#">{!a.LayoutName}</a></li>
+
+</aura:iteration>
+
+</ul>
+
+
+</div>
+</td>
+<td>
+<div class="slds-truncate" title="Cloudhub">
+
+<ul >
+<aura:iteration items="{!v.wrap1}" var="a">
+<li>
+<a href="#">{!a.RecordName}</a></li>
+
+</aura:iteration>
+
+</ul>
+
+
+</div>
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="slds-col">
+<div class="slds-box slds-theme_default">
+
+<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+<thead>
+<tr class="slds-line-height_reset">
+<th class="" scope="col">
+<div class="slds-truncate">Destination:&nbsp;{!v.str2}</div>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+
+<th class="bb">Page Layout</th>
+<th class="bb">Record Type</th>
+</tr>
+<tr class="slds-hint-parent">
+
+<td>
+<div class="slds-truncate" title="Cloudhub">
+
+<ul >
+<aura:iteration items="{!v.wrap2}" var="a">
+<li>
+<a href="#">{!a.LayoutName}</a></li>
+
+</aura:iteration>
+
+</ul>
+
+
+</div>
+</td>
+<td>
+<div class="slds-truncate" title="Cloudhub">
+
+<ul >
+<aura:iteration items="{!v.wrap2}" var="a">
+<li>
+<a href="#">{!a.RecordName}</a></li>
+
+</aura:iteration>
+
+</ul>
+
+
+</div>
+</td>
+
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</lightning:card>
+
+</aura:if>
+
+
+</aura:component>

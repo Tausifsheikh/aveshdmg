@@ -1,0 +1,55 @@
+@isTest
+private class mappingTest {
+
+    private class RestMock implements HttpCalloutMock {
+        
+        public HTTPResponse respond(HTTPRequest req) {
+           string body ='{"size":104,"totalSize":104, "done":true,"queryLocator":null,"entityTypeName":"ProfileLayout", "records":[ {"attributes":{"type":"ProfileLayout","url":"/services/data/v33.0/tooling/sobjects/ProfileLayout/01G2v00004C1PJXEA3"},"Id":"01G2v00004C1PJXEA3","Layout":{"Name":"usama"},"RecordType":{"Name":"Rtype","SobjectType":"Applicationw"}}]}';
+           // String transformedText = body.replace('""', '"'); 
+            HTTPResponse res = new HTTPResponse();
+            res.setHeader('Content-Type', 'text/json');
+            res.setBody(body);
+            res.setStatusCode(200);
+            return res;
+        }
+    }
+    static testMethod void service_call() {
+        Profile p = [select id,Name from profile where name='System Administrator'];
+        User u = new User(
+     ProfileId = p.id,
+     LastName = 'last',
+     Email = 'puser000@amamama.com',
+     Username = 'puser000@amamama.com' + System.currentTimeMillis(),
+     CompanyName = 'TEST',
+     Title = 'title',
+     Alias = 'alias',
+     TimeZoneSidKey = 'America/Los_Angeles',
+     EmailEncodingKey = 'UTF-8',
+     LanguageLocaleKey = 'en_US',
+     LocaleSidKey = 'en_US');
+     insert u;
+       
+
+        Test.setMock(HttpCalloutMock.class, new RestMock());
+        Test.startTest();
+
+       
+mappingProfile.Main(p.Name);
+
+mappingProfile.profileCall(p.Name);
+
+mappingProfile.profileCall(null);
+
+mappingProfile.getDetailProfile(p.Name);
+mappingProfile.apexCall(p.Name);
+mappingProfile.apexCall_2(p.Name);
+        Test.StopTest();
+        
+       
+        
+        
+
+    }
+  
+   
+}
